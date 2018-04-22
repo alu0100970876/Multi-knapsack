@@ -1,0 +1,22 @@
+2
+5
+16
+23
+3 4
+5 20
+12 15
+10 9
+2 1
+
+#######################
+Numero de mochilas
+Numero de objetos
+Capacidades de las mochilas
+.
+.
+.
+
+Beneficio - Peso de los objetos
+.
+.
+.
