@@ -11,8 +11,8 @@ public class Multiknapsack {
 		System.out.println("FIN");
 		Solucion sol2 = new Solucion("problema1.txt");
 		System.out.println("Solucion 2 inicial: " + sol2+ " Valor: " + sol2.valorTotal());
-		sol2.GRASP(100000);
-		System.out.println("Solucion 2 final: " + sol2 + " Valor: " + sol2.valorTotal());
+		sol2.GRASP(10);
+		System.out.println("Solucion 2 final: " + sol2 + " Valor: " + sol2.valorTotal() + " " + sol2.isValid());
 		System.out.println("FIN");
 	}
 }
