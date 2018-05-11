@@ -12,6 +12,7 @@ public class Solucion {
 	ArrayList<Integer> pesos = new ArrayList<Integer>();
 	public ArrayList<Integer> solucion = new ArrayList<Integer>();
 	int valortotal;
+	double TAM_SOL_GENERADA = 2;
 	
 	public Solucion(String filename) {
 		readFromFile(filename);
@@ -57,9 +58,9 @@ public class Solucion {
 				// Luego en general se recorre el array de la linea empezando por 1
 				int nMochilas, objetosPorFila, peso;
 				int nFilas = new Integer(line[1]);
-				nMochilas = objetosPorFila = new Integer(line[2]);
-				
-				for(int i = 0; i < nFilas; ++i) {
+				nMochilas =  new Integer(line[2]);
+				objetosPorFila = 20;
+				for(int i = 0; i < nFilas; ++i) {				  
 					line = reader.readLine().split("\\s+");
 					peso = new Integer(reader.readLine().split("\\s+")[1]);
 					for(int j = 1; j <= objetosPorFila; ++j) {
@@ -269,16 +270,29 @@ public class Solucion {
 	/** Resolucion del problema con aproximación grasp
 	 * @param numOfIterations
 	 */
-	public void GRASP(int numOfIterations) {
+	public void GRASP(int numOfIterations, int movetype) {
 		ArrayList<Integer> mejor = solucion;
 		for(int i = 0; i < numOfIterations; i++) {
 			Solucion temp = new Solucion(this); // se genera una solucion identica y se limpia
 			for(int j = 0; j < temp.solucion.size(); j++) {
 				temp.solucion.set(j, -1);
 			}
-			temp.generarSolucion(this.solucion.size()); // se genera una solucion aleatoria
+			temp.generarSolucion((int)(this.solucion.size()/TAM_SOL_GENERADA)); // se genera una solucion aleatoria
 			//System.out.println("Solucion generada:" + temp + " valor: " + temp.valorTotal());
-			temp.mov1(true); // se realiza una busqueda local para esa solucion con uno de los movimientos
+			switch(movetype) {
+			  case 1:
+			    temp.mov1(true); // se realiza una busqueda local para esa solucion con uno de los movimientos
+		      break;
+			  case 2:
+			    temp.mov2(true);
+			    break;
+			  case 3:
+			    temp.mov3(true);
+			    break;
+			  case 4:
+			    temp.mov4(true);
+			    break;
+			}
 			if(this.valorTotal() < temp.valorTotal() && temp.isValid()) {
 				this.solucion  = new ArrayList<Integer>(temp.solucion); // si la nueva solucion es mejor, se cambia
 			}			
@@ -322,6 +336,51 @@ public class Solucion {
   		}
 	  }
 	}
+	
+	/** Similar al mov 1 pero sacando 2
+	 * @param type
+	 */
+	public void mov2( boolean type) {
+	  while(!this.isValid()) {
+      if(type) { // versión aleatoria de este movimiento
+        Random rand = new Random();
+        ArrayList<Integer> posiblesentran =  new ArrayList<Integer>();
+        for(int i = 0; i < this.solucion.size(); i++) { // lista de posibles indices a entrar
+          if(this.solucion.get(i) == -1) {
+            posiblesentran.add(i);
+          }
+        }
+        for(int i = 0; i < posiblesentran.size(); i++) { // para un numero determinado de veces (parametro) se introduce una de las posibilidades en una mochila aleatoria
+          int entra = rand.nextInt( posiblesentran.size()); // elemento que entra
+          int mochila =  rand.nextInt(this.capacidades.size());// mochila aleatoria
+          this.solucion.set(entra, mochila);
+          posiblesentran.remove(entra);
+          int entra2 = rand.nextInt( posiblesentran.size()); // elemento que entra en
+          int mochila2 =  rand.nextInt(this.capacidades.size());// otra michila aleatoria
+          this.solucion.set(entra2, mochila2);
+          posiblesentran.remove(entra2);
+          while(!isValid()) {// si la solucion no es valida se eliminan objetos y se ponen en la lista de posibles a entrar
+            ArrayList<Integer> posiblessalir =  new ArrayList<Integer>();
+            for(int j = 0; j < this.solucion.size(); j++) {// los posibles a salir son los que esten en esa mochila
+              if(this.solucion.get(i) == mochila ||this.solucion.get(i) == mochila2) {
+                posiblessalir.add(i);
+              }
+            }
+            if(posiblessalir.size() == 0) {
+              break;
+            }
+            int sale = rand.nextInt(posiblessalir.size());
+            this.solucion.set(posiblessalir.get(sale), -1); // se saca un elemento aleatorio de dicha mochila
+            sale = rand.nextInt(posiblessalir.size());
+            this.solucion.set(posiblessalir.get(sale), -1);
+          }
+        }
+      }
+    }
+	}
+	
+	public void mov3( boolean type) {}
+	public void mov4( boolean type) {}
 	
 	/** Genera una solucion aleatoria
 	 * @param tamanio
