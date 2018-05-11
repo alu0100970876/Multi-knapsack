@@ -1,6 +1,6 @@
 package multiknapsack;
 
-public class Objeto {
+public class Objeto implements Comparable<Objeto> {
 	int beneficio;
 	int peso;
 	
@@ -21,4 +21,8 @@ public class Objeto {
 	public void setPeso(int peso) {
 		this.peso = peso;
 	}
+
+	public int compareTo(Objeto o) {
+		return new Double(getBeneficio() / (double) (getPeso())).compareTo(o.getBeneficio() / (double) (o.getPeso()));
+	}	
 }

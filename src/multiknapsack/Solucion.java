@@ -19,6 +19,9 @@ public class Solucion {
 		for(int i = 0; i < beneficios.size(); ++i)
 			solucion.add(-1);
 		setValortotal(0);
+		ordenarPorRatioBeneficioPeso();
+		/*for(int i = 0; i < beneficios.size(); ++i)
+			System.out.println(beneficios.get(i) + " " + pesos.get(i));*/
 	}
 	
 	public Solucion(Solucion other) {
@@ -33,17 +36,43 @@ public class Solucion {
 		BufferedReader reader = null;
 		try {
 			reader = new BufferedReader(new FileReader(inputfile));
-			int nMochilas = new Integer(reader.readLine());
-			int nObjetos = new Integer(reader.readLine());
-			
-			for(int i = 0; i < nMochilas; ++i)
-				capacidades.add(new Integer(reader.readLine()));
-			
-			String line[];
-			for(int i = 0; i < nObjetos; ++i) {
-				line = reader.readLine().split("\\s");
-				beneficios.add(new Integer(line[0]));
-				pesos.add(new Integer(line[1]));
+			if(inputfile.equals("problema1.txt")) {		// por compatibilidad con el problema ejemplo inical
+				int nMochilas = new Integer(reader.readLine());
+				int nObjetos = new Integer(reader.readLine());
+				
+				for(int i = 0; i < nMochilas; ++i)
+					capacidades.add(new Integer(reader.readLine()));
+				
+				String line[];
+				for(int i = 0; i < nObjetos; ++i) {
+					line = reader.readLine().split("\\s");
+					beneficios.add(new Integer(line[0]));
+					pesos.add(new Integer(line[1]));
+				}
+			}
+			else {
+				reader.readLine();
+				String line[] = reader.readLine().split("\\s+");
+				// Tras dividir por espacios la primera posicion del array queda con la cadena vacia
+				// Luego en general se recorre el array de la linea empezando por 1
+				int nMochilas, objetosPorFila, peso;
+				int nFilas = new Integer(line[1]);
+				nMochilas = objetosPorFila = new Integer(line[2]);
+				
+				for(int i = 0; i < nFilas; ++i) {
+					line = reader.readLine().split("\\s+");
+					peso = new Integer(reader.readLine().split("\\s+")[1]);
+					for(int j = 1; j <= objetosPorFila; ++j) {
+						beneficios.add(new Integer(line[j]));
+						pesos.add(peso);
+					}
+				}
+				
+				for(int i = 0; i < Math.ceil(nMochilas / 10D); ++i) {
+					line = reader.readLine().split("\\s+");
+					for(int j = 1; j <= Math.min(10, nMochilas - 10*i); ++j)
+						capacidades.add(new Integer(line[j]));
+				}
 			}
 		}
 		catch(IOException e) {
@@ -55,6 +84,20 @@ public class Solucion {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	public void ordenarPorRatioBeneficioPeso() {
+		ArrayList<Objeto> objetos = new ArrayList<Objeto>();
+		for(int i = 0; i < beneficios.size(); ++i)
+			objetos.add(new Objeto(beneficios.get(i), pesos.get(i)));
+		//objetos.sort(null);
+		
+		beneficios.clear();
+		pesos.clear();
+		for(int i = objetos.size() - 1; i >= 0; --i) {
+			beneficios.add(objetos.get(i).getBeneficio());
+			pesos.add(objetos.get(i).getPeso());
 		}
 	}
 	
