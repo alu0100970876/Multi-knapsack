@@ -92,7 +92,7 @@ public class Solucion {
 		ArrayList<Objeto> objetos = new ArrayList<Objeto>();
 		for(int i = 0; i < beneficios.size(); ++i)
 			objetos.add(new Objeto(beneficios.get(i), pesos.get(i)));
-		//objetos.sort(null);
+		objetos.sort(null);
 		
 		beneficios.clear();
 		pesos.clear();
@@ -206,7 +206,8 @@ public class Solucion {
 		int i = 0;
 		while((i < capacidades.size()) && (!beneficiosRestantes.isEmpty())) {
 			greedySolveKnapsack(i, beneficiosRestantes, pesosRestantes);
-			// System.out.println("beneficios restantes size = " + beneficiosRestantes.size());
+			//System.out.println(this);
+			//System.out.println("beneficios restantes size = " + beneficiosRestantes.size());
 			i++;
 		}
 	}
@@ -218,25 +219,27 @@ public class Solucion {
 		for(int i = 1; i <= beneficios.size(); ++i) {
 			for(int j = 0; j <= getCapacidad(mochila); ++j) {
 				int left = v[i - 1][j];
-				if(j - getPeso(i-1) < 0)
+				if(j - pesos.get(i-1) < 0)
 					v[i][j] = left;
 				else {
-					int up = v[i-1][j - getPeso(i-1)] + getBeneficio(i-1);
+					int up = v[i-1][j - pesos.get(i-1)] + beneficios.get(i-1);
 					v[i][j] = Math.max(left, up);
 				}
 			}
-		}		
+		}
+		
 		// Obtener indices de los objetos metidos en esta mochila
 		// Indices relativos a los objetos restantes
 		ArrayList<Integer> indicesRelativos = new ArrayList<Integer>();
 		int capacidadRestante = getCapacidad(mochila);
 		for(int i = beneficios.size(); i >= 1; --i) {
-			if((getPeso(i-1) <= capacidadRestante) && (v[i-1][capacidadRestante - getPeso(i-1)]
-					+ getBeneficio(i-1) == v[i][capacidadRestante])) {
+			if((pesos.get(i-1) <= capacidadRestante) && (v[i-1][capacidadRestante - pesos.get(i-1)]
+					+ beneficios.get(i-1) == v[i][capacidadRestante])) {
 				indicesRelativos.add(i-1);
-				capacidadRestante = capacidadRestante - getPeso(i-1);
+				capacidadRestante = capacidadRestante - pesos.get(i-1);
 			}
-		}		
+		}
+
 		// Actualizar la solucion
 		// i -> recorrer solucion general
 		// j -> recorrer indices relativos (van de mayor a menor)
@@ -251,7 +254,8 @@ public class Solucion {
 				}
 				k--;
 			}
-		}		
+		}
+		
 		// Borrar los objetos metidos de los objetos restantes
 		for(int i = 0; i < indicesRelativos.size(); i++) {
 			// Cast a int para que lo tome como indice, en lugar de elemento, a borrar
