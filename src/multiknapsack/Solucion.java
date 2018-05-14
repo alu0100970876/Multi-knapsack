@@ -29,7 +29,7 @@ public class Solucion {
 		capacidades = other.capacidades;
 		beneficios = other.beneficios;
 		pesos =  other.pesos;
-		solucion = other.solucion;
+		solucion = (ArrayList<Integer>) other.solucion.clone();
 	}
 	
 	
@@ -274,14 +274,14 @@ public class Solucion {
 	/** Resolucion del problema con aproximación grasp
 	 * @param numOfIterations
 	 */
-	public void GRASP(int numOfIterations, int movetype) {
+	public void GRASP(int numOfIterations, int movetype, int tamListaRestringida) {
 		ArrayList<Integer> mejor = solucion;
 		for(int i = 0; i < numOfIterations; i++) {
 			Solucion temp = new Solucion(this); // se genera una solucion identica y se limpia
 			for(int j = 0; j < temp.solucion.size(); j++) {
 				temp.solucion.set(j, -1);
 			}
-			temp.generarSolucion((int)(this.solucion.size()/TAM_SOL_GENERADA)); // se genera una solucion aleatoria
+			temp.generarSolucion((int)(tamListaRestringida)); // se genera una solucion aleatoria
 			//System.out.println("Solucion generada:" + temp + " valor: " + temp.valorTotal());
 			switch(movetype) {
 			  case 1:
@@ -390,24 +390,23 @@ public class Solucion {
 	 * @param tamanio
 	 */
 	public void generarSolucion(int tamanio) {
-	  do {
-	    for(int i = 0; i < this.solucion.size(); i++) {
+		for(int i = 0; i < this.solucion.size(); i++) {
         this.solucion.set(i, -1);
-      }
+		}
   		Random rand = new Random();
   		ArrayList<Integer> posibles =  new ArrayList<Integer>();
   		for(int i = 0; i < this.solucion.size(); i++) {
   			posibles.add(i);
   		}	
-  		for(int i = 0; i < tamanio; i++) {
-  			int entra = rand.nextInt( posibles.size() - 1); // se selecciona un objeto aleatorio (su indice) que referira a los posibles
+  		for(int i = 0; i < solucion.size(); i++) {
+  			int entra = rand.nextInt(Math.min(tamanio, posibles.size() - 1)); // se selecciona un objeto aleatorio (su indice) de la lista restringida
   			this.solucion.set(posibles.get(entra), rand.nextInt( this.capacidades.size()));// el objeto seleccionado entra en una mochila aleatoria
-  			posibles.remove(entra);// se saca esa posibilidad para que no se repita
   			if(!this.isValid()) {
-  				this.solucion.set(entra, -1);// si al introducir la solucion no es valida, se saca
+  				this.solucion.set(posibles.get(entra), -1);// si al introducir la solucion no es valida, se saca
+  				//break;
   				posibles.add(entra);
   			}
-  		}	
-	  }while(!this.isValid());
+  			posibles.remove(entra);// se saca esa posibilidad para que no se repita
+  		}
 	}
 }
