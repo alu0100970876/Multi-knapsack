@@ -34,5 +34,12 @@ public class Multiknapsack {
     temporizador.stop();
     System.out.println("Solucion 4 final: "  + " Valor: " + sol4.valorTotal() + " " + sol4.isValid()+ " Tiempo: " + (temporizador.getElapsedTime())+ "ms");
     System.out.println("FIN");
+    Solucion sol5 = new Solucion("instancias/MK75_03.txt");
+    System.out.println("Solucion 5 inicial: " + " Valor: " + sol5.valorTotal());
+    temporizador.start();
+    sol5.LNS(10, 5);
+    temporizador.stop();
+    System.out.println("Solucion 5 final: "  + " Valor: " + sol5.valorTotal() + " " + sol5.isValid()+ " Tiempo: " + (temporizador.getElapsedTime())+ "ms");
+    System.out.println("FIN");
 	}
 }

@@ -486,4 +486,60 @@ public class Solucion {
 	    }
 	}
 	
+   private void destroy(double percentage) {
+        ArrayList<Integer> assignedObjects = new ArrayList<>();
+        for (int i = 0; i < solucion.size(); ++i) {
+            if (solucion.get(i) != -1) {
+                assignedObjects.add(solucion.get(i));
+            }
+        }
+        
+        int j = 0;
+        while (j < (int) (assignedObjects.size() * percentage)) {
+            int randObj = new Random().nextInt(assignedObjects.size());
+            if (assignedObjects.get(randObj) != -1) {
+                assignedObjects.set(randObj, -1);
+                ++j;
+            }
+        }
+        
+        j = 0;
+        for (int i = 0; i < solucion.size() && j < assignedObjects.size(); ++i) {
+            if (solucion.get(i) != -1) {
+                solucion.set(i, assignedObjects.get(j++));
+            }
+        }
+        
+    }
+    
+    private void reconstruct() {
+        int stop = 0;
+        for (int object = 0; object < solucion.size() && stop < 10; ++object) {
+            if (solucion.get(object) == -1) {
+                this.mov3(object);
+                if (solucion.get(object) == -1) {
+                    stop++;
+                }
+            }
+        }
+    }
+    
+    public void LNS(int numIteraciones, int tamListaRestringida) {
+        this.generarSolucion(tamListaRestringida);
+        Solucion best = new Solucion(this);
+        double percentage = 0.1;
+        
+        for (int i = 0; i < numIteraciones; ++i){
+            this.destroy(percentage);
+            this.reconstruct();     // la solución es válida
+            if (this.valorTotal() > best.valorTotal()) {
+                best.solucion = new ArrayList<Integer>(this.solucion);
+                best.setValortotal(this.getValortotal());
+            }
+        }
+        
+        this.solucion = new ArrayList<Integer>(best.solucion);
+        setValortotal(best.getValortotal());
+    }
+	
 }
