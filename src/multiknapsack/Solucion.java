@@ -4,19 +4,20 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 /**
  * Clase solucion para el problema de la multi-mochila.
  * Almacena las capacidades de cada mochila, los beneficios y
- * pesos de los objetos, así como codifica una solución.
- * Además, contiene los algoritmos para mejorar las soluciones
- * y obtener la solución óptima o una cercana a ella (heurísticas). 
+ * pesos de los objetos, asï¿½ como codifica una soluciï¿½n.
+ * Ademï¿½s, contiene los algoritmos para mejorar las soluciones
+ * y obtener la soluciï¿½n ï¿½ptima o una cercana a ella (heurï¿½sticas). 
  * 
- * La solución se codifica como un array con un elemento entero
- * por cada posible objeto. El valor de la posición i indica la
+ * La soluciï¿½n se codifica como un array con un elemento entero
+ * por cada posible objeto. El valor de la posiciï¿½n i indica la
  * mochila en la que se ha introducido el objeto i. Si el valor es
- * -1, se considera que el objeto no está en ninguna mochila.
+ * -1, se considera que el objeto no estï¿½ en ninguna mochila.
  * 
  * @author Miguel Jimenez Gomis
  * @author Alejandro Leon Fernandez
@@ -29,7 +30,7 @@ public class Solucion {
 	ArrayList<Integer> capacidades = new ArrayList<Integer>(); /** Capacidad de cada una de las mochilas. */
 	ArrayList<Integer> beneficios = new ArrayList<Integer>();  /** Beneficios de cada uno de los objetos. */
 	ArrayList<Integer> pesos = new ArrayList<Integer>();       /** Pesos de cada uno de los objetos. */
-	public ArrayList<Integer> solucion = new ArrayList<Integer>();  /** Codificación de la solucion. */
+	public ArrayList<Integer> solucion = new ArrayList<Integer>();  /** Codificaciï¿½n de la solucion. */
 	int valortotal;            /** Funcion objetivo. Valor conjunto de los objetos introducidos en mochilas. */
 	
 	/**
@@ -46,7 +47,7 @@ public class Solucion {
      *  ...
      *  beneficio_objetoN peso_objetoN
 	 * 
-	 * @param filename nombre del fichero donde se encuentra la solución
+	 * @param filename nombre del fichero donde se encuentra la soluciï¿½n
 	 */
 	public Solucion(String filename) {
 		readFromFile(filename);
@@ -73,7 +74,7 @@ public class Solucion {
 	
 	
 	/**
-	 * Lee la solución de fichero.
+	 * Lee la soluciï¿½n de fichero.
 	 * @param inputfile
 	 */
 	public void readFromFile(String inputfile) {
@@ -132,7 +133,7 @@ public class Solucion {
 	}
 	
 	/**
-	 * Ordena la lista de objetos según su ratio beneficio peso, colocando
+	 * Ordena la lista de objetos segï¿½n su ratio beneficio peso, colocando
 	 * los objetos con un mejor valor al principio del array.
 	 */
 	public void ordenarPorRatioBeneficioPeso() {
@@ -248,7 +249,7 @@ public class Solucion {
 	
 	
 	/**
-	 * Obtiene la solución óptima utilizando un algoritmo voraz.
+	 * Obtiene la soluciï¿½n ï¿½ptima utilizando un algoritmo voraz.
 	 * Recursivo.
 	 */
 	public void greedySolve() {
@@ -497,7 +498,7 @@ public class Solucion {
 	public void mov4(int mochila) {
 		int objeto = 0;
 		while(objeto < solucion.size() && solucion.get(objeto) != -1) objeto++;
-		if(solucion.get(objeto) == -1) {
+		if(objeto < solucion.size() && solucion.get(objeto) == -1) {
 			solucion.set(objeto, mochila);
 			setValortotal(getValortotal() + beneficios.get(objeto));
 		}
@@ -537,9 +538,9 @@ public class Solucion {
 	}
 	
 	/**
-	 * Encuentra una solución buena mediante la búsqueda de soluciones mejores
-	 * vecinas. A partir de una solución inicial, busca soluciones mejores en 
-	 * un entorno determinado (de 4 posibles) y actualiza la solución iterativamente
+	 * Encuentra una soluciï¿½n buena mediante la bï¿½squeda de soluciones mejores
+	 * vecinas. A partir de una soluciï¿½n inicial, busca soluciones mejores en 
+	 * un entorno determinado (de 4 posibles) y actualiza la soluciï¿½n iterativamente
 	 * hasta que se cumple el criterio de parada (5 saltos).
 	 * 
 	 * @param numOfIterations
@@ -580,8 +581,8 @@ public class Solucion {
 	}
 	
     /**
-     * Destruye parte de la solución atendiendo a un porcentaje dado.
-     * @param percentage porcentaje de la solución a destruir
+     * Destruye parte de la soluciï¿½n atendiendo a un porcentaje dado.
+     * @param percentage porcentaje de la soluciï¿½n a destruir
      */
     private void destroy(double percentage) {
         ArrayList<Integer> assignedObjects = new ArrayList<>();
@@ -610,9 +611,9 @@ public class Solucion {
     }
     
     /**
-     * Reconstruye la solución con el movimiento 3. Coloca los objetos que están 
-     * fuera de mochilas hasta que no se pueda introducir ningún otro objeto (es decir,
-     * las mochilas estén saturadas).
+     * Reconstruye la soluciï¿½n con el movimiento 3. Coloca los objetos que estï¿½n 
+     * fuera de mochilas hasta que no se pueda introducir ningï¿½n otro objeto (es decir,
+     * las mochilas estï¿½n saturadas).
      */
     private void reconstruct() {
         int stop = 0;
@@ -627,12 +628,12 @@ public class Solucion {
     }
     
     /**
-     * Algoritmo Large Neighbourhood Search. A partir de una solución aleatoria,
-     * la mejora durante un cierto número de iteraciones mediante destrucción
-     * y reconstrucción de la solución.
+     * Algoritmo Large Neighbourhood Search. A partir de una soluciï¿½n aleatoria,
+     * la mejora durante un cierto nï¿½mero de iteraciones mediante destrucciï¿½n
+     * y reconstrucciï¿½n de la soluciï¿½n.
      * 
-     * @param numIteraciones número de veces que se realiza la destrucción-reconstrucción
-     * @param tamListaRestringida número de elementos mejores a considerar
+     * @param numIteraciones nï¿½mero de veces que se realiza la destrucciï¿½n-reconstrucciï¿½n
+     * @param tamListaRestringida nï¿½mero de elementos mejores a considerar
      */
     public void LNS(int numIteraciones, int tamListaRestringida) {
         this.generarSolucion(tamListaRestringida);
@@ -652,4 +653,38 @@ public class Solucion {
         setValortotal(best.getValortotal());
     }
 	
+    public void tabuSearch(boolean solInicial, int tabuTenure, int nMovs) {
+    	TabuRegistry.tabuTenure = tabuTenure;
+    	HashMap<Integer, TabuRegistry> tabuList = new HashMap<Integer, TabuRegistry>();
+    	
+    	if(!solInicial)
+    		greedySolve();
+    	else
+    		generarSolucion(5);
+    	
+    	int i = 0;
+    	Solucion currentSol, auxSol;
+    	valorTotal();
+    	currentSol = new Solucion(this);
+    	while(i < nMovs) {
+    		int objeto = 0;
+    		while(objeto < solucion.size() && (solucion.get(objeto) != -1 || (!tabuList.containsKey(objeto) || tabuList.get(objeto).noStepsLeft())))
+    			objeto++;
+    		if(objeto < solucion.size()) {
+    			auxSol = new Solucion(currentSol);
+    			auxSol.mov3(objeto);
+    			if(auxSol.valorTotal() > this.getValortotal()) {
+    				solucion = new ArrayList<Integer>(auxSol.solucion);
+    				setValortotal(auxSol.getValortotal());
+    				currentSol = new Solucion(auxSol);
+    			}
+    			else if((auxSol.valorTotal() > currentSol.getValortotal()) && (!tabuList.containsKey(objeto) || tabuList.get(objeto).noStepsLeft())) {
+    				currentSol = new Solucion(auxSol);
+    				tabuList.put(objeto, new TabuRegistry());
+    			}
+    		}
+    		tabuList.forEach((k,v) -> v.refresh());
+    		i++;
+    	}
+    }
 }
