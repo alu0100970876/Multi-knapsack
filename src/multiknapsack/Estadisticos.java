@@ -45,6 +45,7 @@ public class Estadisticos {
     String line = new String();
     FileWriter fw = new FileWriter(argc[0]);
     BufferedWriter bw = new BufferedWriter(fw);
+    /*
     bw.write("Greedy");
     System.out.println("Greedy");
     bw.newLine();
@@ -276,6 +277,262 @@ public class Estadisticos {
       Solucion sol = new Solucion(instancias.get(i));
       temporizador.start();
       sol.LNS(50, 5);
+      temporizador.stop();
+      line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
+      bw.write(line);
+      bw.newLine();
+      System.out.println(line);
+    }
+    bw.flush();
+    */
+    // TRUE
+    bw.write("Tabu 1 100");
+    System.out.println("Tabu 1 100");
+    bw.newLine();
+    for(int i = 0; i < instancias.size(); i++) {
+      Solucion sol = new Solucion(instancias.get(i));
+      temporizador.start();
+      sol.tabuSearch(true, 1, 100);
+      temporizador.stop();
+      line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
+      bw.write(line);
+      bw.newLine();
+      System.out.println(line);
+    }
+    bw.flush();
+    bw.write("Tabu 1 250");
+    System.out.println("Tabu 1 250");
+    bw.newLine();
+    for(int i = 0; i < instancias.size(); i++) {
+      Solucion sol = new Solucion(instancias.get(i));
+      temporizador.start();
+      sol.tabuSearch(true, 1, 250);
+      temporizador.stop();
+      line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
+      bw.write(line);
+      bw.newLine();
+      System.out.println(line);
+    }
+    bw.flush();
+    bw.write("Tabu 1 600");
+    System.out.println("Tabu 1 600");
+    bw.newLine();
+    for(int i = 0; i < instancias.size(); i++) {
+      Solucion sol = new Solucion(instancias.get(i));
+      temporizador.start();
+      sol.tabuSearch(true, 1, 600);
+      temporizador.stop();
+      line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
+      bw.write(line);
+      bw.newLine();
+      System.out.println(line);
+    }
+    bw.flush();
+    bw.write("Tabu 2 100");
+    System.out.println("Tabu 2 100");
+    bw.newLine();
+    for(int i = 0; i < instancias.size(); i++) {
+      Solucion sol = new Solucion(instancias.get(i));
+      temporizador.start();
+      sol.tabuSearch(true, 2, 100);
+      temporizador.stop();
+      line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
+      bw.write(line);
+      bw.newLine();
+      System.out.println(line);
+    }
+    bw.flush();
+    bw.write("Tabu 2 250");
+    System.out.println("Tabu 2 250");
+    bw.newLine();
+    for(int i = 0; i < instancias.size(); i++) {
+      Solucion sol = new Solucion(instancias.get(i));
+      temporizador.start();
+      sol.tabuSearch(true, 2, 250);
+      temporizador.stop();
+      line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
+      bw.write(line);
+      bw.newLine();
+      System.out.println(line);
+    }
+    bw.flush();
+    bw.write("Tabu 2 600");
+    System.out.println("Tabu 2 600");
+    bw.newLine();
+    for(int i = 0; i < instancias.size(); i++) {
+      Solucion sol = new Solucion(instancias.get(i));
+      temporizador.start();
+      sol.tabuSearch(true, 2, 600);
+      temporizador.stop();
+      line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
+      bw.write(line);
+      bw.newLine();
+      System.out.println(line);
+    }
+    bw.flush();
+    bw.write("Tabu 5 100");
+    System.out.println("Tabu 5 100");
+    bw.newLine();
+    for(int i = 0; i < instancias.size(); i++) {
+      Solucion sol = new Solucion(instancias.get(i));
+      temporizador.start();
+      sol.tabuSearch(true, 5, 100);
+      temporizador.stop();
+      line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
+      bw.write(line);
+      bw.newLine();
+      System.out.println(line);
+    }
+    bw.flush();
+    bw.write("Tabu 5 250");
+    System.out.println("Tabu 5 250");
+    bw.newLine();
+    for(int i = 0; i < instancias.size(); i++) {
+      Solucion sol = new Solucion(instancias.get(i));
+      temporizador.start();
+      sol.tabuSearch(true, 5, 250);
+      temporizador.stop();
+      line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
+      bw.write(line);
+      bw.newLine();
+      System.out.println(line);
+    }
+    bw.flush();
+    bw.write("Tabu 5 600");
+    System.out.println("Tabu 5 600");
+    bw.newLine();
+    for(int i = 0; i < instancias.size(); i++) {
+      Solucion sol = new Solucion(instancias.get(i));
+      temporizador.start();
+      sol.tabuSearch(true, 5, 600);
+      temporizador.stop();
+      line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
+      bw.write(line);
+      bw.newLine();
+      System.out.println(line);
+    }
+    bw.flush();
+
+    // FALSE
+    bw.write("Tabu 1 100");
+    System.out.println("Tabu 1 100");
+    bw.newLine();
+    for(int i = 0; i < instancias.size(); i++) {
+      Solucion sol = new Solucion(instancias.get(i));
+      temporizador.start();
+      sol.tabuSearch(false, 1, 100);
+      temporizador.stop();
+      line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
+      bw.write(line);
+      bw.newLine();
+      System.out.println(line);
+    }
+    bw.flush();
+    bw.write("Tabu 1 250");
+    System.out.println("Tabu 1 250");
+    bw.newLine();
+    for(int i = 0; i < instancias.size(); i++) {
+      Solucion sol = new Solucion(instancias.get(i));
+      temporizador.start();
+      sol.tabuSearch(false, 1, 250);
+      temporizador.stop();
+      line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
+      bw.write(line);
+      bw.newLine();
+      System.out.println(line);
+    }
+    bw.flush();
+    bw.write("Tabu 1 600");
+    System.out.println("Tabu 1 600");
+    bw.newLine();
+    for(int i = 0; i < instancias.size(); i++) {
+      Solucion sol = new Solucion(instancias.get(i));
+      temporizador.start();
+      sol.tabuSearch(false, 1, 600);
+      temporizador.stop();
+      line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
+      bw.write(line);
+      bw.newLine();
+      System.out.println(line);
+    }
+    bw.flush();
+    bw.write("Tabu 2 100");
+    System.out.println("Tabu 2 100");
+    bw.newLine();
+    for(int i = 0; i < instancias.size(); i++) {
+      Solucion sol = new Solucion(instancias.get(i));
+      temporizador.start();
+      sol.tabuSearch(false, 2, 100);
+      temporizador.stop();
+      line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
+      bw.write(line);
+      bw.newLine();
+      System.out.println(line);
+    }
+    bw.flush();
+    bw.write("Tabu 2 250");
+    System.out.println("Tabu 2 250");
+    bw.newLine();
+    for(int i = 0; i < instancias.size(); i++) {
+      Solucion sol = new Solucion(instancias.get(i));
+      temporizador.start();
+      sol.tabuSearch(false, 2, 250);
+      temporizador.stop();
+      line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
+      bw.write(line);
+      bw.newLine();
+      System.out.println(line);
+    }
+    bw.flush();
+    bw.write("Tabu 2 600");
+    System.out.println("Tabu 2 600");
+    bw.newLine();
+    for(int i = 0; i < instancias.size(); i++) {
+      Solucion sol = new Solucion(instancias.get(i));
+      temporizador.start();
+      sol.tabuSearch(false, 2, 600);
+      temporizador.stop();
+      line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
+      bw.write(line);
+      bw.newLine();
+      System.out.println(line);
+    }
+    bw.flush();
+    bw.write("Tabu 5 100");
+    System.out.println("Tabu 5 100");
+    bw.newLine();
+    for(int i = 0; i < instancias.size(); i++) {
+      Solucion sol = new Solucion(instancias.get(i));
+      temporizador.start();
+      sol.tabuSearch(false, 5, 100);
+      temporizador.stop();
+      line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
+      bw.write(line);
+      bw.newLine();
+      System.out.println(line);
+    }
+    bw.flush();
+    bw.write("Tabu 5 250");
+    System.out.println("Tabu 5 250");
+    bw.newLine();
+    for(int i = 0; i < instancias.size(); i++) {
+      Solucion sol = new Solucion(instancias.get(i));
+      temporizador.start();
+      sol.tabuSearch(false, 5, 250);
+      temporizador.stop();
+      line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
+      bw.write(line);
+      bw.newLine();
+      System.out.println(line);
+    }
+    bw.flush();
+    bw.write("Tabu 5 600");
+    System.out.println("Tabu 5 600");
+    bw.newLine();
+    for(int i = 0; i < instancias.size(); i++) {
+      Solucion sol = new Solucion(instancias.get(i));
+      temporizador.start();
+      sol.tabuSearch(false, 5, 600);
       temporizador.stop();
       line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
       bw.write(line);
