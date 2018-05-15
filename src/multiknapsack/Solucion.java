@@ -653,8 +653,8 @@ public class Solucion {
         setValortotal(best.getValortotal());
     }
 	
-    public void tabuSearch(boolean solInicial, int tabuTenure, int nMovs) {
-    	TabuRegistry.tabuTenure = tabuTenure;
+    public void tabuSearch(boolean solInicial, int factorTabuTenure, int nMovs) {
+    	TabuRegistry.tabuTenure = (int) (Math.sqrt(solucion.size()) / factorTabuTenure);
     	HashMap<Integer, TabuRegistry> tabuList = new HashMap<Integer, TabuRegistry>();
     	
     	if(!solInicial)
@@ -662,13 +662,14 @@ public class Solucion {
     	else
     		generarSolucion(5);
     	
+    	// Usando el primer movimiento (mov3)
     	int i = 0;
     	Solucion currentSol, auxSol;
     	valorTotal();
     	currentSol = new Solucion(this);
     	while(i < nMovs) {
     		int objeto = 0;
-    		while(objeto < solucion.size() && (solucion.get(objeto) != -1 || (!tabuList.containsKey(objeto) || tabuList.get(objeto).noStepsLeft())))
+    		while(objeto < solucion.size() && (solucion.get(objeto) != -1))
     			objeto++;
     		if(objeto < solucion.size()) {
     			auxSol = new Solucion(currentSol);
@@ -677,10 +678,40 @@ public class Solucion {
     				solucion = new ArrayList<Integer>(auxSol.solucion);
     				setValortotal(auxSol.getValortotal());
     				currentSol = new Solucion(auxSol);
+    				tabuList.put(objeto, new TabuRegistry());
     			}
-    			else if((auxSol.valorTotal() > currentSol.getValortotal()) && (!tabuList.containsKey(objeto) || tabuList.get(objeto).noStepsLeft())) {
+    			else {
+    				while((objeto < solucion.size() - 1) && (tabuList.containsKey(objeto) && !tabuList.get(objeto).noStepsLeft()))
+    					objeto++;
     				currentSol = new Solucion(auxSol);
     				tabuList.put(objeto, new TabuRegistry());
+    			}
+    		}
+    		tabuList.forEach((k,v) -> v.refresh());
+    		i++;
+    	}
+    	
+    	// Usando el segundo movimiento (mov4)
+    	tabuList.clear();
+    	i = 0;
+    	valorTotal();
+    	currentSol = new Solucion(this);
+    	while(i < nMovs) {
+    		int mochila = new Random().nextInt(capacidades.size());
+    		if(mochila < capacidades.size()) {
+    			auxSol = new Solucion(currentSol);
+    			auxSol.mov4(mochila);
+    			if(auxSol.valorTotal() > this.getValortotal()) {
+    				solucion = new ArrayList<Integer>(auxSol.solucion);
+    				setValortotal(auxSol.getValortotal());
+    				currentSol = new Solucion(auxSol);
+    				tabuList.put(mochila, new TabuRegistry());
+    			}
+    			else {
+    				while((mochila < capacidades.size() - 1) && (tabuList.containsKey(mochila) && !tabuList.get(mochila).noStepsLeft()))
+    					mochila++;
+    				currentSol = new Solucion(auxSol);
+    				tabuList.put(mochila, new TabuRegistry());
     			}
     		}
     		tabuList.forEach((k,v) -> v.refresh());

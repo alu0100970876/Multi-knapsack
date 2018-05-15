@@ -28,25 +28,25 @@ public class Multiknapsack {
 	  System.out.println("FIN");
 //.----
 	  Solucion sol4 = new Solucion("instancias/MK75_03.txt");
-    System.out.println("Solucion 4 inicial: " + " Valor: " + sol4.valorTotal());
-    temporizador.start();
-    sol4.VNS(10, 5);
-    temporizador.stop();
-    System.out.println("Solucion 4 final: "  + " Valor: " + sol4.valorTotal() + " " + sol4.isValid()+ " Tiempo: " + (temporizador.getElapsedTime())+ "ms");
-    System.out.println("FIN");
-    Solucion sol5 = new Solucion("instancias/MK75_03.txt");
-    System.out.println("Solucion 5 inicial: " + " Valor: " + sol5.valorTotal());
-    temporizador.start();
-    sol5.LNS(10, 5);
-    temporizador.stop();
-    System.out.println("Solucion 5 final: "  + " Valor: " + sol5.valorTotal() + " " + sol5.isValid()+ " Tiempo: " + (temporizador.getElapsedTime())+ "ms");
-    System.out.println("FIN");
-    Solucion sol6 = new Solucion("instancias/MK75_03.txt");
-    System.out.println("Solucion 6 inicial: " + " Valor: " + sol6.valorTotal());
-    temporizador.start();
-    sol6.tabuSearch(true, 50, 50);
-    temporizador.stop();
-    System.out.println("Solucion 6 final: "  + " Valor: " + sol6.valorTotal() + " " + sol6.isValid()+ " Tiempo: " + (temporizador.getElapsedTime())+ "ms");
-    System.out.println("FIN");
+	    System.out.println("Solucion 4 inicial: " + " Valor: " + sol4.valorTotal());
+	    temporizador.start();
+	    sol4.VNS(10, 5);
+	    temporizador.stop();
+	    System.out.println("Solucion 4 final: "  + " Valor: " + sol4.valorTotal() + " " + sol4.isValid()+ " Tiempo: " + (temporizador.getElapsedTime())+ "ms");
+	    System.out.println("FIN");
+	    Solucion sol5 = new Solucion("instancias/MK75_03.txt");
+	    System.out.println("Solucion 5 inicial: " + " Valor: " + sol5.valorTotal());
+	    temporizador.start();
+	    sol5.LNS(10, 5);
+	    temporizador.stop();
+	    System.out.println("Solucion 5 final: "  + " Valor: " + sol5.valorTotal() + " " + sol5.isValid()+ " Tiempo: " + (temporizador.getElapsedTime())+ "ms");
+	    System.out.println("FIN");
+	    Solucion sol6 = new Solucion("instancias/MK75_03.txt");
+	    System.out.println("Solucion 6 inicial: " + " Valor: " + sol6.valorTotal());
+	    temporizador.start();
+	    sol6.tabuSearch(true, 2, 500);
+	    temporizador.stop();
+	    System.out.println("Solucion 6 final: "  + " Valor: " + sol6.valorTotal() + " " + sol6.isValid()+ " Tiempo: " + (temporizador.getElapsedTime())+ "ms");
+	    System.out.println("FIN");
 	}
 }
