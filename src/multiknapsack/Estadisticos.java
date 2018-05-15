@@ -58,6 +58,7 @@ public class Estadisticos {
       bw.newLine();
       System.out.println(line);
     }
+    bw.flush();
     bw.write("Grasp mov 1 10 iter");
     System.out.println("Graso mov 1 10 iter");
     bw.newLine();
@@ -71,6 +72,7 @@ public class Estadisticos {
       bw.newLine();
       System.out.println(line);
     }
+    bw.flush();
     bw.write("Grasp mov 2 10 iter");
     System.out.println("Grasp mov 2 10 iter");
     bw.newLine();
@@ -84,6 +86,7 @@ public class Estadisticos {
       bw.newLine();
       System.out.println(line);
     }
+    bw.flush();
     bw.write("Grasp mov 3 10 iter");
     System.out.println("Grasp mov 3 10 iter");
     bw.newLine();
@@ -97,6 +100,7 @@ public class Estadisticos {
       bw.newLine();
       System.out.println(line);
     }
+    bw.flush();
     bw.write("Grasp mov 4 10 iter");
     System.out.println("Grasp mov 4 10 iter");
     bw.newLine();
@@ -110,58 +114,63 @@ public class Estadisticos {
       bw.newLine();
       System.out.println(line);
     }
-    bw.write("Grasp mov 1 100 iter");
-    System.out.println("Graso mov 1 100 iter");
+    bw.flush();
+    bw.write("Grasp mov 1 50 iter");
+    System.out.println("Graso mov 1 50 iter");
     bw.newLine();
     for(int i = 0; i < instancias.size(); i++) {
       Solucion sol = new Solucion(instancias.get(i));
       temporizador.start();
-      sol.GRASP(100, 1, 5);
+      sol.GRASP(50, 1, 5);
       temporizador.stop();
       line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
       bw.write(line);
       bw.newLine();
       System.out.println(line);
     }
-    bw.write("Grasp mov 2 100 iter");
-    System.out.println("Grasp mov 2 100 iter");
+    bw.flush();
+    bw.write("Grasp mov 2 50 iter");
+    System.out.println("Grasp mov 2 50 iter");
     bw.newLine();
     for(int i = 0; i < instancias.size(); i++) {
       Solucion sol = new Solucion(instancias.get(i));
       temporizador.start();
-      sol.GRASP(100, 2, 5);
+      sol.GRASP(50, 2, 5);
       temporizador.stop();
       line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
       bw.write(line);
       bw.newLine();
       System.out.println(line);
     }
-    bw.write("Grasp mov 3 100 iter");
-    System.out.println("Grasp mov 3 100 iter");
+    bw.flush();
+    bw.write("Grasp mov 3 50 iter");
+    System.out.println("Grasp mov 3 50 iter");
     bw.newLine();
     for(int i = 0; i < instancias.size(); i++) {
       Solucion sol = new Solucion(instancias.get(i));
       temporizador.start();
-      sol.GRASP(100, 3, 5);
+      sol.GRASP(50, 3, 5);
       temporizador.stop();
       line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
       bw.write(line);
       bw.newLine();
       System.out.println(line);
     }
-    bw.write("Grasp mov 4 100 iter");
-    System.out.println("Grasp mov 4 100 iter");
+    bw.flush();
+    bw.write("Grasp mov 4 50 iter");
+    System.out.println("Grasp mov 4 50 iter");
     bw.newLine();
     for(int i = 0; i < instancias.size(); i++) {
       Solucion sol = new Solucion(instancias.get(i));
       temporizador.start();
-      sol.GRASP(100, 4, 5);
+      sol.GRASP(50, 4, 5);
       temporizador.stop();
       line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
       bw.write(line);
       bw.newLine();
       System.out.println(line);
     }
+    bw.flush();
     bw.write("VNS 10 iter");
     System.out.println("VNS 10 iter");
     bw.newLine();
@@ -175,19 +184,21 @@ public class Estadisticos {
       bw.newLine();
       System.out.println(line);
     }
-    bw.write("VNS 100 iter");
-    System.out.println("VNS 100 iter");
+    bw.flush();
+    bw.write("VNS 50 iter");
+    System.out.println("VNS 50 iter");
     bw.newLine();
     for(int i = 0; i < instancias.size(); i++) {
       Solucion sol = new Solucion(instancias.get(i));
       temporizador.start();
-      sol.VNS(100, 5);
+      sol.VNS(50, 5);
       temporizador.stop();
       line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
       bw.write(line);
       bw.newLine();
       System.out.println(line);
     }
+    bw.flush();
     bw.write("Multiarranque mov 1");
     System.out.println("Multiarranque mov 1");
     bw.newLine();
@@ -201,6 +212,7 @@ public class Estadisticos {
       bw.newLine();
       System.out.println(line);
     }
+    bw.flush();
     bw.write("Multiarranque mov 2");
     System.out.println("Multiarranque mov 2");
     bw.newLine();
@@ -214,6 +226,7 @@ public class Estadisticos {
       bw.newLine();
       System.out.println(line);
     }
+    bw.flush();
     bw.write("Multiarranque mov 3");
     System.out.println("Multiarranque mov 3");
     bw.newLine();
@@ -227,6 +240,7 @@ public class Estadisticos {
       bw.newLine();
       System.out.println(line);
     }
+    bw.flush();
     bw.write("Multiarranque mov 4");
     System.out.println("Multiarranque mov 4");
     bw.newLine();
@@ -240,6 +254,7 @@ public class Estadisticos {
       bw.newLine();
       System.out.println(line);
     }
+    bw.flush();
     bw.write("LNS 10 iter");
     System.out.println("LNS 10 iter");
     bw.newLine();
@@ -253,19 +268,21 @@ public class Estadisticos {
       bw.newLine();
       System.out.println(line);
     }
-    bw.write("LNS 100 iter");
-    System.out.println("LNS 100 iter");
+    bw.flush();
+    bw.write("LNS 50 iter");
+    System.out.println("LNS 50 iter");
     bw.newLine();
     for(int i = 0; i < instancias.size(); i++) {
       Solucion sol = new Solucion(instancias.get(i));
       temporizador.start();
-      sol.LNS(100, 5);
+      sol.LNS(50, 5);
       temporizador.stop();
       line = sol.valorTotal() + ", " + temporizador.getElapsedTime();
       bw.write(line);
       bw.newLine();
       System.out.println(line);
     }
+    bw.flush();
     bw.close();
     fw.close();
   }
