@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Solucion {	
+	private static final int MAX_ITERACIONES_NO_MEJORA = 500;
 	ArrayList<Integer> capacidades = new ArrayList<Integer>();
 	ArrayList<Integer> beneficios = new ArrayList<Integer>();
 	ArrayList<Integer> pesos = new ArrayList<Integer>();
@@ -301,6 +302,36 @@ public class Solucion {
 				this.solucion  = new ArrayList<Integer>(temp.solucion); // si la nueva solucion es mejor, se cambia
 			}			
 		}
+	}
+	
+	/**
+	 * Implementa el algoritmo multiarranque con soluciones aleatorias. Se ejecuta mientras no 
+	 * haya MAX_ITERACIONES_NO_MEJORA iteraciones sin cambio
+	 */
+	public void multiArranque(int movimiento){
+		this.generarSolucion(solucion.size());
+		Solucion mejorSol = new Solucion(this);
+		int iteracionSinMejora = 0;
+		while(iteracionSinMejora < MAX_ITERACIONES_NO_MEJORA) {
+			switch(movimiento) {
+				case 1: this.mov1(true); break;
+				case 2: this.mov2(true); break;
+				case 3: this.mov3(new Random().nextInt(solucion.size())); break;
+				case 4: this.mov4(new Random().nextInt(capacidades.size())); break;
+			}
+			this.mov1(true);
+			if(this.valortotal > mejorSol.valortotal){
+				for(int i = 0; i < solucion.size(); i++)
+					mejorSol.setSolucion(i, this.solucion.get(i));
+				this.generarSolucion(solucion.size());
+				iteracionSinMejora = 0;
+			}
+			else
+				iteracionSinMejora++;
+		}
+		for(int i = 0; i < solucion.size(); i++)
+			this.solucion.set(i, mejorSol.getSolucion(i));
+		
 	}
 	
 	/** Movimiento posible 1, quitar elementos delas mochilas e introducir otros. version aleatoria y greede
