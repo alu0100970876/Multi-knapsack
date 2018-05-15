@@ -12,7 +12,6 @@ public class Solucion {
 	ArrayList<Integer> pesos = new ArrayList<Integer>();
 	public ArrayList<Integer> solucion = new ArrayList<Integer>();
 	int valortotal;
-	double TAM_SOL_GENERADA = 2;
 	
 	public Solucion(String filename) {
 		readFromFile(filename);
@@ -29,7 +28,8 @@ public class Solucion {
 		capacidades = other.capacidades;
 		beneficios = other.beneficios;
 		pesos =  other.pesos;
-		solucion = (ArrayList<Integer>) other.solucion.clone();
+		solucion = new ArrayList<Integer> (other.solucion);
+		setValortotal(other.getValortotal());
 	}
 	
 	
@@ -291,10 +291,10 @@ public class Solucion {
 			    temp.mov2(true);
 			    break;
 			  case 3:
-			    temp.mov3(true);
+			    temp.mov3(new Random().nextInt(solucion.size()));
 			    break;
 			  case 4:
-			    temp.mov4(true);
+			    temp.mov4(new Random().nextInt(capacidades.size()));
 			    break;
 			}
 			if(this.valorTotal() < temp.valorTotal() && temp.isValid()) {
@@ -337,7 +337,7 @@ public class Solucion {
   					//posibles.salir
   				}
   			}
-  		}
+  		 }
 	  }
 	}
 	
@@ -383,8 +383,50 @@ public class Solucion {
     }
 	}
 	
-	public void mov3( boolean type) {}
-	public void mov4( boolean type) {}
+	/**
+	 * Cambia un objeto de una mochila a otra o, si no está en una mochila, lo mete donde pueda
+	 * 
+	 */
+	public void mov3(int objeto) {
+		Random rand = new Random();
+		int mochila = rand.nextInt(capacidades.size());
+		if(solucion.get(objeto) != -1)
+			solucion.set(objeto, mochila);
+		else {
+			int i = mochila;
+			do {
+				solucion.set(objeto, i);
+				if(!isValid())
+					solucion.set(objeto, -1);
+				else {
+					setValortotal(getValortotal() + beneficios.get(objeto));
+					break;
+				}
+				i = (i + 1) % capacidades.size();
+			} while(i != mochila);
+		}
+	}
+	
+	/**
+	 * Mete un objeto en una mochila y saca los necesarios para recuperar la factibilidad
+	 * 
+	 */
+	public void mov4(int mochila) {
+		int objeto = 0;
+		while(objeto < solucion.size() && solucion.get(objeto) != -1) objeto++;
+		if(solucion.get(objeto) == -1) {
+			solucion.set(objeto, mochila);
+			setValortotal(getValortotal() + beneficios.get(objeto));
+		}
+		if(!isValid())
+			for(int i = solucion.size() - 1; i >= 0; --i) {
+				if(solucion.get(i) == mochila) {
+					solucion.set(i, -1);
+					setValortotal(getValortotal() - beneficios.get(i));
+					if(isValid()) break;
+				}
+			}
+	}
 	
 	/** Genera una solucion aleatoria
 	 * @param tamanio
@@ -411,37 +453,37 @@ public class Solucion {
 	}
 	
 	public void VNS(int numOfIterations, int tamListaRestringida) {
-    for(int i = 0; i < numOfIterations; i++) {
-      Solucion temp = new Solucion(this); // se genera una solucion identica y se limpia
-      for(int j = 0; j < temp.solucion.size(); j++) {
-        temp.solucion.set(j, -1);
-      }
-      temp.generarSolucion((int)(tamListaRestringida)); // se genera una solucion aleatoria
-      int mov = 1;
-      do {
-        switch (mov) {
-          case 1:
-            temp.mov1(true); // se realiza una busqueda local para esa solucion con uno de los movimientos
-            break;
-          case 2: 
-            temp.mov2(true); // se realiza una busqueda local para esa solucion con uno de los movimientos
-            break; 
-          case 3:
-            temp.mov3(true);
-            break;
-          case 4:
-            temp.mov4(true);
-          default:
-            break;
-        }
-        if(this.valorTotal() < temp.valorTotal() && temp.isValid()) {
-          this.solucion  = new ArrayList<Integer>(temp.solucion);          
-        } else {
-          mov++;
-        }
-      }while(mov < 5);
-      mov = 1;
-    }
+	    for(int i = 0; i < numOfIterations; i++) {
+	      Solucion temp = new Solucion(this); // se genera una solucion identica y se limpia
+	      for(int j = 0; j < temp.solucion.size(); j++) {
+	        temp.solucion.set(j, -1);
+	      }
+	      temp.generarSolucion((int)(tamListaRestringida)); // se genera una solucion aleatoria
+	      int mov = 1;
+	      do {
+	        switch (mov) {
+	          case 1:
+	            temp.mov1(true); // se realiza una busqueda local para esa solucion con uno de los movimientos
+	            break;
+	          case 2: 
+	            temp.mov2(true); // se realiza una busqueda local para esa solucion con uno de los movimientos
+	            break; 
+	          case 3:
+	            temp.mov3(new Random().nextInt(solucion.size()));
+	            break;
+	          case 4:
+	            temp.mov4(new Random().nextInt(capacidades.size()));
+	          default:
+	            break;
+	        }
+	        if(this.valorTotal() < temp.valorTotal() && temp.isValid()) {
+	          this.solucion  = new ArrayList<Integer>(temp.solucion);          
+	        } else {
+	          mov++;
+	        }
+	      }while(mov < 5);
+	      mov = 1;
+	    }
 	}
 	
 }
