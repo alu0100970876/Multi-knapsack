@@ -409,4 +409,39 @@ public class Solucion {
   			posibles.remove(entra);// se saca esa posibilidad para que no se repita
   		}
 	}
+	
+	public void VNS(int numOfIterations, int tamListaRestringida) {
+    for(int i = 0; i < numOfIterations; i++) {
+      Solucion temp = new Solucion(this); // se genera una solucion identica y se limpia
+      for(int j = 0; j < temp.solucion.size(); j++) {
+        temp.solucion.set(j, -1);
+      }
+      temp.generarSolucion((int)(tamListaRestringida)); // se genera una solucion aleatoria
+      int mov = 1;
+      do {
+        switch (mov) {
+          case 1:
+            temp.mov1(true); // se realiza una busqueda local para esa solucion con uno de los movimientos
+            break;
+          case 2: 
+            temp.mov2(true); // se realiza una busqueda local para esa solucion con uno de los movimientos
+            break; 
+          case 3:
+            temp.mov3(true);
+            break;
+          case 4:
+            temp.mov4(true);
+          default:
+            break;
+        }
+        if(this.valorTotal() < temp.valorTotal() && temp.isValid()) {
+          this.solucion  = new ArrayList<Integer>(temp.solucion);          
+        } else {
+          mov++;
+        }
+      }while(mov < 5);
+      mov = 1;
+    }
+	}
+	
 }

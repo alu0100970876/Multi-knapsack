@@ -20,11 +20,19 @@ public class Multiknapsack {
 		System.out.println("Solucion 2 final: "  + " Valor: " + sol2.valorTotal() + " " + sol2.isValid()+ " Tiempo: " + (temporizador.getElapsedTime())+ "ms");
 		System.out.println("FIN");
 		Solucion sol3 = new Solucion("instancias/MK75_03.txt");
-	    System.out.println("Solucion3 inicial: " + " Valor: " + sol3.valorTotal());
-	    temporizador.start();
-	    sol3.GRASP(10, 2, 5);
-	    temporizador.stop();
-	    System.out.println("Solucion 3 final: "  + " Valor: " + sol3.valorTotal() + " " + sol2.isValid()+ " Tiempo: " + (temporizador.getElapsedTime())+ "ms");
-	    System.out.println("FIN");
+	  System.out.println("Solucion 3 inicial: " + " Valor: " + sol3.valorTotal());
+	  temporizador.start();
+	  sol3.GRASP(10, 2, 5);
+	  temporizador.stop();
+	  System.out.println("Solucion 3 final: "  + " Valor: " + sol3.valorTotal() + " " + sol3.isValid()+ " Tiempo: " + (temporizador.getElapsedTime())+ "ms");
+	  System.out.println("FIN");
+//.----
+	  Solucion sol4 = new Solucion("instancias/MK75_03.txt");
+    System.out.println("Solucion 4 inicial: " + " Valor: " + sol4.valorTotal());
+    temporizador.start();
+    sol4.VNS(10, 5);
+    temporizador.stop();
+    System.out.println("Solucion 4 final: "  + " Valor: " + sol4.valorTotal() + " " + sol4.isValid()+ " Tiempo: " + (temporizador.getElapsedTime())+ "ms");
+    System.out.println("FIN");
 	}
 }
