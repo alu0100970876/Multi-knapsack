@@ -319,7 +319,6 @@ public class Solucion {
 				case 3: this.mov3(new Random().nextInt(solucion.size())); break;
 				case 4: this.mov4(new Random().nextInt(capacidades.size())); break;
 			}
-			this.mov1(true);
 			if(this.valortotal > mejorSol.valortotal){
 				for(int i = 0; i < solucion.size(); i++)
 					mejorSol.setSolucion(i, this.solucion.get(i));
@@ -562,7 +561,7 @@ public class Solucion {
         
         for (int i = 0; i < numIteraciones; ++i){
             this.destroy(percentage);
-            this.reconstruct();     // la solución es válida
+            this.reconstruct();     // la soluciï¿½n es vï¿½lida
             if (this.valorTotal() > best.valorTotal()) {
                 best.solucion = new ArrayList<Integer>(this.solucion);
                 best.setValortotal(this.getValortotal());
