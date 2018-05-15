@@ -6,14 +6,48 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Clase solucion para el problema de la multi-mochila.
+ * Almacena las capacidades de cada mochila, los beneficios y
+ * pesos de los objetos, así como codifica una solución.
+ * Además, contiene los algoritmos para mejorar las soluciones
+ * y obtener la solución óptima o una cercana a ella (heurísticas). 
+ * 
+ * La solución se codifica como un array con un elemento entero
+ * por cada posible objeto. El valor de la posición i indica la
+ * mochila en la que se ha introducido el objeto i. Si el valor es
+ * -1, se considera que el objeto no está en ninguna mochila.
+ * 
+ * @author Miguel Jimenez Gomis
+ * @author Alejandro Leon Fernandez
+ * @author Javier Esteban Perez Rivas
+ * @author Sara Revilla Baez
+ *
+ */
 public class Solucion {	
 	private static final int MAX_ITERACIONES_NO_MEJORA = 500;
-	ArrayList<Integer> capacidades = new ArrayList<Integer>();
-	ArrayList<Integer> beneficios = new ArrayList<Integer>();
-	ArrayList<Integer> pesos = new ArrayList<Integer>();
-	public ArrayList<Integer> solucion = new ArrayList<Integer>();
-	int valortotal;
+	ArrayList<Integer> capacidades = new ArrayList<Integer>(); /** Capacidad de cada una de las mochilas. */
+	ArrayList<Integer> beneficios = new ArrayList<Integer>();  /** Beneficios de cada uno de los objetos. */
+	ArrayList<Integer> pesos = new ArrayList<Integer>();       /** Pesos de cada uno de los objetos. */
+	public ArrayList<Integer> solucion = new ArrayList<Integer>();  /** Codificación de la solucion. */
+	int valortotal;            /** Funcion objetivo. Valor conjunto de los objetos introducidos en mochilas. */
 	
+	/**
+	 * Construye la solucion a partir de un fichero dado. Formato:
+	 * 
+	 *  num_mochilas
+     *  num_objetos
+     *  capacidad_mochila1
+     *  capacidad_mochila2
+     *  ...
+     *  capacidad_mochilaN
+     *  beneficio_objeto1 peso_objeto1
+     *  beneficio_objeto2 peso_objeto2
+     *  ...
+     *  beneficio_objetoN peso_objetoN
+	 * 
+	 * @param filename nombre del fichero donde se encuentra la solución
+	 */
 	public Solucion(String filename) {
 		readFromFile(filename);
 		solucion = new ArrayList<Integer>();
@@ -25,6 +59,10 @@ public class Solucion {
 			System.out.println(beneficios.get(i) + " " + pesos.get(i));*/
 	}
 	
+	/**
+	 * Construye un objeto solucion como copia de otro
+	 * @param other solucion a copiar
+	 */
 	public Solucion(Solucion other) {
 		capacidades = other.capacidades;
 		beneficios = other.beneficios;
@@ -34,6 +72,10 @@ public class Solucion {
 	}
 	
 	
+	/**
+	 * Lee la solución de fichero.
+	 * @param inputfile
+	 */
 	public void readFromFile(String inputfile) {
 		BufferedReader reader = null;
 		try {
@@ -89,6 +131,10 @@ public class Solucion {
 		}
 	}
 	
+	/**
+	 * Ordena la lista de objetos según su ratio beneficio peso, colocando
+	 * los objetos con un mejor valor al principio del array.
+	 */
 	public void ordenarPorRatioBeneficioPeso() {
 		ArrayList<Objeto> objetos = new ArrayList<Objeto>();
 		for(int i = 0; i < beneficios.size(); ++i)
@@ -145,8 +191,8 @@ public class Solucion {
 	
 	
 	/**
-	 * Calcula el valor total de todas las mochilas
-	 * @return
+	 * Calcula el valor total de los objetos introducidos en todas las mochilas
+	 * @return valor de los objetos introducidos en mochilas
 	 */
 	public int valorTotal() {
 		int valor = 0;
@@ -160,7 +206,7 @@ public class Solucion {
 	/**
 	 * Calcula el peso de la carga para una mochila dada
 	 * @param mochila
-	 * @return
+	 * @return peso de los objetos en la mochila
 	 */
 	public int pesoMochila(int mochila) {
 		int peso = 0;
@@ -175,7 +221,7 @@ public class Solucion {
 	/**
 	 * Calcula el valor de la carga para una mochila dada
 	 * @param mochila
-	 * @return
+	 * @return valor de los objetos en la mochila
 	 */
 	public int valorMochila(int mochila) {
 		int beneficio = 0;
@@ -189,7 +235,7 @@ public class Solucion {
 	
 	/**
 	 * Comprueba que una solucion sea valida
-	 * @return
+	 * @return true si la solucion es valida, false si no lo es
 	 */
 	public boolean isValid() {
 		for(int i =  0; i < capacidades.size(); i++) {
@@ -201,6 +247,10 @@ public class Solucion {
 	}
 	
 	
+	/**
+	 * Obtiene la solución óptima utilizando un algoritmo voraz.
+	 * Recursivo.
+	 */
 	public void greedySolve() {
 		ArrayList<Integer> beneficiosRestantes = (ArrayList<Integer>) beneficios.clone();
 		ArrayList<Integer> pesosRestantes = (ArrayList<Integer>) pesos.clone();
@@ -272,7 +322,8 @@ public class Solucion {
 		return cadena;
 	}
 	
-	/** Resolucion del problema con aproximaciÃ³n grasp
+	/** 
+	 * Resolucion del problema con aproximaciÃ³n GRASP
 	 * @param numOfIterations
 	 */
 	public void GRASP(int numOfIterations, int movetype, int tamListaRestringida) {
@@ -319,7 +370,7 @@ public class Solucion {
 				case 3: this.mov3(new Random().nextInt(solucion.size())); break;
 				case 4: this.mov4(new Random().nextInt(capacidades.size())); break;
 			}
-			if(this.valortotal > mejorSol.valortotal){
+			if(this.valorTotal() > mejorSol.valorTotal()){
 				for(int i = 0; i < solucion.size(); i++)
 					mejorSol.setSolucion(i, this.solucion.get(i));
 				this.generarSolucion(solucion.size());
@@ -333,7 +384,8 @@ public class Solucion {
 		
 	}
 	
-	/** Movimiento posible 1, quitar elementos delas mochilas e introducir otros. version aleatoria y greede
+	/** 
+	 * Movimiento posible 1, quitar elementos de las mochilas e introducir otros. version aleatoria y greedy
 	 * @todo version greedy
 	 * @param type
 	 */
@@ -371,10 +423,11 @@ public class Solucion {
 	  }
 	}
 	
-	/** Similar al mov 1 pero sacando 2
+	/**
+	 * Similar al mov 1 pero sacando 2
 	 * @param type
 	 */
-	public void mov2( boolean type) {
+	public void mov2(boolean type) {
 	  while(!this.isValid()) {
       if(type) { // versiÃ³n aleatoria de este movimiento
         Random rand = new Random();
@@ -415,7 +468,7 @@ public class Solucion {
 	
 	/**
 	 * Cambia un objeto de una mochila a otra o, si no estÃ¡ en una mochila, lo mete donde pueda
-	 * 
+	 * @param objeto indice del objeto que se quiere mover
 	 */
 	public void mov3(int objeto) {
 		Random rand = new Random();
@@ -439,7 +492,7 @@ public class Solucion {
 	
 	/**
 	 * Mete un objeto en una mochila y saca los necesarios para recuperar la factibilidad
-	 * 
+	 * @param mochila indice de la mochila que se quiere modificar
 	 */
 	public void mov4(int mochila) {
 		int objeto = 0;
@@ -458,8 +511,9 @@ public class Solucion {
 			}
 	}
 	
-	/** Genera una solucion aleatoria
-	 * @param tamanio
+	/**
+	 * Genera una solucion aleatoria
+	 * @param tamanio numero de elementos de la solucion
 	 */
 	public void generarSolucion(int tamanio) {
 		for(int i = 0; i < this.solucion.size(); i++) {
@@ -482,6 +536,15 @@ public class Solucion {
   		}
 	}
 	
+	/**
+	 * Encuentra una solución buena mediante la búsqueda de soluciones mejores
+	 * vecinas. A partir de una solución inicial, busca soluciones mejores en 
+	 * un entorno determinado (de 4 posibles) y actualiza la solución iterativamente
+	 * hasta que se cumple el criterio de parada (5 saltos).
+	 * 
+	 * @param numOfIterations
+	 * @param tamListaRestringida
+	 */
 	public void VNS(int numOfIterations, int tamListaRestringida) {
 	    for(int i = 0; i < numOfIterations; i++) {
 	      Solucion temp = new Solucion(this); // se genera una solucion identica y se limpia
@@ -506,7 +569,7 @@ public class Solucion {
 	          default:
 	            break;
 	        }
-	        if(this.valorTotal() < temp.valorTotal() && temp.isValid()) {
+	        if (this.valorTotal() < temp.valorTotal() && temp.isValid()) {
 	          this.solucion  = new ArrayList<Integer>(temp.solucion);          
 	        } else {
 	          mov++;
@@ -516,7 +579,11 @@ public class Solucion {
 	    }
 	}
 	
-   private void destroy(double percentage) {
+    /**
+     * Destruye parte de la solución atendiendo a un porcentaje dado.
+     * @param percentage porcentaje de la solución a destruir
+     */
+    private void destroy(double percentage) {
         ArrayList<Integer> assignedObjects = new ArrayList<>();
         for (int i = 0; i < solucion.size(); ++i) {
             if (solucion.get(i) != -1) {
@@ -542,6 +609,11 @@ public class Solucion {
         
     }
     
+    /**
+     * Reconstruye la solución con el movimiento 3. Coloca los objetos que están 
+     * fuera de mochilas hasta que no se pueda introducir ningún otro objeto (es decir,
+     * las mochilas estén saturadas).
+     */
     private void reconstruct() {
         int stop = 0;
         for (int object = 0; object < solucion.size() && stop < 10; ++object) {
@@ -554,6 +626,14 @@ public class Solucion {
         }
     }
     
+    /**
+     * Algoritmo Large Neighbourhood Search. A partir de una solución aleatoria,
+     * la mejora durante un cierto número de iteraciones mediante destrucción
+     * y reconstrucción de la solución.
+     * 
+     * @param numIteraciones número de veces que se realiza la destrucción-reconstrucción
+     * @param tamListaRestringida número de elementos mejores a considerar
+     */
     public void LNS(int numIteraciones, int tamListaRestringida) {
         this.generarSolucion(tamListaRestringida);
         Solucion best = new Solucion(this);
